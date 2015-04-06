@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+		<title>Patient Portal</title>
+	</head>
+
+	<div class="main-title">Patient Portal</div>
+	<hr>
+ 		<div class= "header">
+  			<div class="login-area">
+    			{% if user %}
+    				{{user.user_name}} (<a class="login-link" href="/logout">logout</a>)
+    				|
+    				<a class="login-link" href="/newpage">newpage/search</a>
+    			{% else %}
+			      <a class="login-link" href="/login">login</a>
+			      |
+			      <a class="login-link" href="/signup">signup</a>
+			    {% endif %}
+  			</div>
+
+  			
+  		</div>
+
+  	<body>
+		
+
+		
+	
+	</body>
+</html>
