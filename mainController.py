@@ -118,14 +118,14 @@ class Signup(Handler):
 			print params
 			self.render("signup.html", **params)	
 		else:
-			u = User_Data.all().filter("user_name = ", self.username).get()
+			u = users.User_Data.all().filter("user_name = ", self.username).get()
 
 
 			if u:
 				params['error_username']='that user already exists'
 				self.render("signup.html", **params)
 			else:
-				new_user = User_Data.register(self.username, self.password, self.email)
+				new_user = users.User_Data.register(self.username, self.password, self.email)
 				new_user.put()
 				self.redirect("/welcome")
 

@@ -28,7 +28,7 @@ class User_Data(db.Model):
 	@classmethod
 	def register(cls, name, pw, email = None):
 	
-		return User_Data(parent = users_key(), 
+		return User_Data(#parent = users_key(), 
 						user_name = name, 
 						pass_word = pw, 
 						email = email)
