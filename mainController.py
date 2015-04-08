@@ -74,7 +74,7 @@ class Login(Handler):
 		username = self.request.get('username')
 		password = self.request.get('password')
 
-		u = User_Data.login(username, password)
+		u = users.User_Data.login(username, password)
 		if u:
 			self.redirect("/welcome")
 		else:
