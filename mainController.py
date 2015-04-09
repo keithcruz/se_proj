@@ -240,7 +240,7 @@ class AdminHandler(Handler):
 		is_Admin = (self.user_model.role == 0)
 
 		if is_Admin:
-			self.response.out.write("With great power comes great responsibility")
+			self.render("admin.html")
 		else:
 			self.redirect("/welcome")
 
