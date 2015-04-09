@@ -205,7 +205,7 @@ class Signup(Handler):
 		else:
 			vals = {}
 			vals['email'] = self.email
-			vals['role'] = 0
+			vals['role'] = 1
 			vals['username'] = self.username
 			#u = users.User_Data.all().filter("user_name = ", self.username).get()
 			success, info = self.auth.store.user_model.create_user(self.username, 
@@ -240,7 +240,7 @@ class AdminHandler(Handler):
 		is_Admin = (self.user_model.role == 0)
 
 		if is_Admin:
-			self.response.out.write("With great power comes great responsibility")
+			self.redirect("/admin")
 		else:
 			self.redirect("/welcome")
 
