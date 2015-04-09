@@ -44,6 +44,14 @@ def login_required(handler):
 			return handler(self, *args, **kwargs)
 	return check_login
 
+def admin_required(handler):
+	def check_admin(self, *args, **kwargs):
+		if not self.user_model.role == 0:
+			return self.redirect("/welcome")
+		else:
+			return handler(self, *args, **kwargs)
+	return check_admin
+
 ########################################
 #Path stuff for finding jinja2 templates
 ########################################
@@ -233,16 +241,10 @@ class WelcomeHandler(Handler):
 		self.response.out.write("Welcome, " +  str(self.user_model.username))
 
 class AdminHandler(Handler):
-	@login_required
+	@admin_required
+
 	def get(self):
-		is_Admin = False
-
-		is_Admin = (self.user_model.role == 0)
-
-		if is_Admin:
-			self.redirect("/admin")
-		else:
-			self.redirect("/welcome")
+		self.render("admin.html")
 
 
 app = webapp2.WSGIApplication([('/', MainPage),
