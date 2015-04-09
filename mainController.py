@@ -240,7 +240,7 @@ class AdminHandler(Handler):
 		is_Admin = (self.user_model.role == 0)
 
 		if is_Admin:
-			self.response.out.write("With great power comes great responsibility")
+			self.redirect("/admin")
 		else:
 			self.redirect("/welcome")
 
