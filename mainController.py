@@ -232,8 +232,21 @@ class WelcomeHandler(Handler):
 	def get(self):
 		self.response.out.write("Welcome, " +  str(self.user_model.username))
 
+class AdminHandler(Handler):
+	@login_required
+	def get(self):
+		is_Admin = False
+
+		is_Admin = (self.user_model.role == 0)
+
+		if is_Admin:
+			self.response.out.write("With great power comes great responsibility")
+		else:
+			self.redirect("/welcome")
+
 
 app = webapp2.WSGIApplication([('/', MainPage),
+							 ('/admin', AdminHandler),
 							 ('/welcome', WelcomeHandler),
 							 ('/signup', Signup),
 							 ('/login', Login),
