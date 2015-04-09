@@ -6,8 +6,43 @@ import random
 import string
 import re
 
-from google.appengine.ext import db
-from models import users
+#from google.appengine.ext import db
+from webapp2_extras import auth
+from webapp2_extras import sessions
+from webapp2_extras.auth import InvalidAuthIdError
+from webapp2_extras.auth import InvalidPasswordError
+from google.appengine.ext import ndb
+
+############################
+#Setup for auth and sessions
+############################
+config = {}
+config['webapp2_extras.sessions'] = {
+	'secret_key': 'scrum-bags',
+}
+
+# config['webapp2_extras.auth'] = {
+# 	'user_model': User_Data,
+# }
+
+
+def login_required(handler):
+#		def check_login(self, *args, **kwargs):
+#			auth = self.auth
+#			if not auth.get_user_by_session():
+#				try:
+#					self.redirect("/login")
+#				except(AttribueError, KeyError), e:
+#					self.abort(403)
+#			else:
+#				return handler(self, * args, **kwargs)
+#		return check_login
+	def check_login(self, *args, **kwargs):
+		if not self.user:
+			return self.redirect("/login")
+		else:
+			return handler(self, *args, **kwargs)
+	return check_login
 
 ########################################
 #Path stuff for finding jinja2 templates
@@ -55,6 +90,41 @@ class Handler(webapp2.RequestHandler):
 		self.write(self.render_str(template, **kwargs))
 
 
+	@webapp2.cached_property
+	def session_store(self):
+		return sessions.get_store(request=self.request)
+
+
+	@webapp2.cached_property
+	def session(self):
+		return self.session_store.get_session()
+
+
+	def dispatch(self):
+		try:
+			super(Handler, self).dispatch()
+		finally:
+			self.session_store.save_sessions(self.response)
+
+
+	@webapp2.cached_property
+	def auth(self):
+		return auth.get_auth()
+
+
+	@webapp2.cached_property
+	def user(self):
+		user = self.auth.get_user_by_session()
+		return user
+
+
+	@webapp2.cached_property
+	def user_model(self):
+		user_model, timestamp = self.auth.store.user_model.get_by_auth_token(
+			self.user['user_id'],
+			self.user['token']) if self.user else (None, None)
+		return user_model
+
 
 
 class MainPage(Handler):
@@ -74,12 +144,27 @@ class Login(Handler):
 		username = self.request.get('username')
 		password = self.request.get('password')
 
-		u = users.User_Data.login(username, password)
-		if u:
-			self.redirect("/welcome")
-		else:
-			error = 'Invalid login'
-			self.render('login.html', error=error)
+
+		try:
+			self.auth.get_user_by_password(username, password)
+			return self.redirect("/welcome")
+		except(auth.InvalidAuthIdError, auth.InvalidPasswordError):
+			error = 'Invalid Login'
+		self.render('login.html',error=error)
+		# u = users.User_Data.login(username, password)
+		# if u:
+		# 	self.redirect("/welcome")
+		# else:
+		# 	error = 'Invalid login'
+		# 	self.render('login.html', error=error)
+
+
+
+class Logout(Handler):
+	@login_required
+	def get(self):
+		self.auth.unset_session()
+		self.redirect("/login")
 
 
 
@@ -118,25 +203,39 @@ class Signup(Handler):
 			print params
 			self.render("signup.html", **params)	
 		else:
-			u = users.User_Data.all().filter("user_name = ", self.username).get()
+			vals = {}
+			vals['email'] = self.email
+			vals['role'] = 0
+			vals['username'] = self.username
+			#u = users.User_Data.all().filter("user_name = ", self.username).get()
+			success, info = self.auth.store.user_model.create_user(self.username, 
+				password_raw=self.password, **vals)
 
-
-			if u:
+			if not success:
 				params['error_username']='that user already exists'
 				self.render("signup.html", **params)
 			else:
-				new_user = users.User_Data.register(self.username, self.password, self.email)
-				new_user.put()
+				self.auth.set_session(self.auth.store.user_to_dict(info), remember=True)	
+#				m = self.user_model
+#				m.email = self.email
+#				m.role = 0
 				self.redirect("/welcome")
 
 
-class WelcomeHandler(webapp2.RequestHandler):
+			#	new_user = users.User_Data.register(self.username, self.password, self.email)
+			#	new_user.put()
+			#	self.redirect("/welcome")
+
+
+class WelcomeHandler(Handler):
+	@login_required
 	def get(self):
-		self.response.out.write("Welcome, you successfully created an account")
+		self.response.out.write("Welcome, " +  str(self.user_model.username))
 
 
 app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/welcome', WelcomeHandler),
 							 ('/signup', Signup),
 							 ('/login', Login),
-							 ], debug=True)
+							 ('/logout', Logout),
+							 ], debug=True, config=config)
