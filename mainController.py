@@ -146,7 +146,7 @@ class MainPage(Handler):
 
 class Login(Handler):
 	def get(self):
-		self.render('login.html')	
+		self.render('welcome.html')	
 
 	def post(self):
 		username = self.request.get('username')
@@ -173,12 +173,6 @@ class Logout(Handler):
 	def get(self):
 		self.auth.unset_session()
 		self.redirect("/login")
-
-
-
-
-
-
 
 class Signup(Handler):
 	def get(self):
@@ -236,6 +230,9 @@ class Signup(Handler):
 
 
 class WelcomeHandler(Handler):
+	def get(self):
+		self.render("welcome.html")
+
 	@login_required
 	def get(self):
 		self.response.out.write("Welcome, " +  str(self.user_model.username))
@@ -246,6 +243,14 @@ class AdminHandler(Handler):
 	def get(self):
 		self.render("admin.html")
 
+class CreateMessage(Handler):
+	def get(self):
+		self.render('createmessage.html')
+
+	def post(self):
+		username = self.request.get('username')
+		subject = self.request.get('subject')
+		body = self.request.get('body')
 
 app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/admin', AdminHandler),
