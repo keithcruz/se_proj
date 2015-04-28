@@ -8,8 +8,15 @@
 
 	<body>
 		<h1>Welcome</h1>
-		<form method="post">
+		<form>
+			<a href="/messages">Messages</a>
+			<br><br>
+        	<a href="/viewschedule">View Schedule</a>
         	
+        	{% if user_role == 1 %}
+        		<br><br>
+        		<a href="/account">My Account</a>
+        	{% endif %}
 		</form>
 	</body>
 </html>
