@@ -244,7 +244,8 @@ class AdminHandler(Handler):
 	def get(self):
 		self.render("admin.html")
 
-class CreateMessage(Handler):
+class CreateMessageHandler(Handler):
+	@login_required
 	def get(self):
 		self.render('createmessage.html')
 
@@ -253,10 +254,23 @@ class CreateMessage(Handler):
 		subject = self.request.get('subject')
 		body = self.request.get('body')
 
+class ScheduleHandler(Handler):
+	@login_required
+	def get(self):
+		self.render('viewschedule.html')
+
+class AccountHandler(Handler):
+	@login_required
+	def get(self):
+		self.render("viewaccount.html")
+
 app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/admin', AdminHandler),
 							 ('/welcome', WelcomeHandler),
 							 ('/signup', Signup),
 							 ('/login', Login),
 							 ('/logout', Logout),
+							 ('/viewschedule', ScheduleHandler),
+							 ('/createmessage', CreateMessageHandler),
+							 ('/viewaccount', AccountHandler),
 							 ], debug=True, config=config)
