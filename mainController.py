@@ -146,7 +146,7 @@ class MainPage(Handler):
 
 class Login(Handler):
 	def get(self):
-		self.render('welcome.html')	
+		self.render('login.html')	
 
 	def post(self):
 		username = self.request.get('username')
@@ -230,12 +230,13 @@ class Signup(Handler):
 
 
 class WelcomeHandler(Handler):
+	@login_required
 	def get(self):
 		self.render("welcome.html")
 
-	@login_required
-	def get(self):
-		self.response.out.write("Welcome, " +  str(self.user_model.username))
+	# @login_required
+	# def get(self):
+	# 	self.response.out.write("Welcome, " +  str(self.user_model.username))
 
 class AdminHandler(Handler):
 	@admin_required
