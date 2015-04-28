@@ -232,7 +232,7 @@ class Signup(Handler):
 class WelcomeHandler(Handler):
 	@login_required
 	def get(self):
-		self.render("welcome.html", user_role=int(self.user_model.role))
+		self.render("welcome.html", user=self.user_model)
 
 	# @login_required
 	# def get(self):
