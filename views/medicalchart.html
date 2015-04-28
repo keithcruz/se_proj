@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+		<title>Medical Chart</title>
+	</head>
+
+	<body>
+		<h1>Medical Chart</h1>
+		<form method="post">
+        	<br>
+		    <label>
+		        Height
+		        <input type="text" name="height"><font color="red">{{error_username}}</font>
+		    </label>
+
+		    <br>
+		    <label>
+		        Weight
+		        <input type="text" name="weight"><font color="red">{{error_subject}}</font>
+		    </label>
+
+		    <br>
+		    <label>
+		        Blood Pressure
+		        <input type="text" name="blood pressure"><font color="red">{{error_body}}</font>
+		    </label>
+
+		    <br>
+		    <label>
+		        Diagnosis
+		        <input type="text" name="diagnosis"><font color="red">{{error_body}}</font>
+		    </label>
+
+		    <br>
+		    <label>
+		        Notes
+		        <input type="text" name="notes"><font color="red">{{error_body}}</font>
+		    </label>
+
+		    <br><br>
+		    <input type="Submit" name="Save">
+		</form>
+	</body>
+</html>
