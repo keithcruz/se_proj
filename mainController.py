@@ -13,6 +13,7 @@ from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 from google.appengine.ext import ndb
 from models.medicalchart_db import Medical_Data
+from models.messaging import Messaging_System
 
 ############################
 #Setup for auth and sessions
@@ -251,9 +252,20 @@ class CreateMessageHandler(Handler):
 		self.render('createmessage.html')
 
 	def post(self):
-		username = self.request.get('username')
-		subject = self.request.get('subject')
-		body = self.request.get('body')
+		send = self.user_model.username
+		rec = self.request.get('username')
+		sub = self.request.get('subject')
+		mes = self.request.get('body')
+
+		new_message = Messaging_System(sender = send,
+								recipient = rec,
+								subject = sub,
+								message = mes,
+								read = False)
+
+		new_message.put()
+
+		self.redirect('/welcome')
 
 class ScheduleHandler(Handler):
 	@login_required
