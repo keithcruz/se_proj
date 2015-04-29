@@ -17,6 +17,7 @@ class Messaging_System(ndb.Model):
 	subject = ndb.StringProperty(required = True)
 	message = ndb.StringProperty(required = False)
 	read = ndb.BooleanProperty(required = False)
+	timestamp = ndb.DateTimeProperty(auto_now = True)
 
 	# Creates a new message of the given values and then stores
 	# it in the database.
