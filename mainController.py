@@ -14,6 +14,7 @@ from webapp2_extras.auth import InvalidPasswordError
 from google.appengine.ext import ndb
 from models.medicalchart_db import Medical_Data
 from models.messaging import Messaging_System
+from models.scheduleappointment_db import Schedule_Data
 
 ############################
 #Setup for auth and sessions
@@ -333,6 +334,20 @@ class ScheduleAppointmentHandler(Handler):
 	@login_required
 	def get(self):
 		self.render('scheduleappointment.html')
+
+	@login_required
+	def post(self):
+		self.username = self.request.get('username')
+		self.date = self.request.get('date')
+		self.time = self.request.get('time')
+		self.reason_for_visit = self.request.get('reason_for_visit')
+		
+		s = Schedule_Data(user_name = self.username, 
+						 date = self.date, 
+						 time = self.time, 
+						 reason_for_visit = self.reason_for_visit)
+		s.put()
+		self.redirect('/welcome')
 
 class MakePaymentHandler(Handler):
 	@login_required
