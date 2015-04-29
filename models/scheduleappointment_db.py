@@ -12,3 +12,8 @@ class Schedule_Data(db.Model):
     date = db.StringProperty(required=True)
     time = db.StringProperty(required=True)
     reason_for_visit = db.TextProperty(required=False)
+
+    @classmethod
+    def get_messages(cls, name):
+	    messages = Messaging_System.all().filter('recipient =', name).get()
+	    return messages

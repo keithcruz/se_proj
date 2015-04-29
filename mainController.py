@@ -354,6 +354,11 @@ class MakePaymentHandler(Handler):
 	def get(self):
 		self.render('makepayment.html')
 
+class ViewMessageHandler(Handler):
+	@login_required
+	def get(self):
+		self.render('viewmessage.html')		
+
 app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/admin', AdminHandler),
 							 ('/welcome', WelcomeHandler),
@@ -366,5 +371,6 @@ app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/createmedicalchart', CreateChartHandler),
 							 ('/viewmedicalchart', ViewMedicalChartHandler),
 							 ('/scheduleappointment', ScheduleAppointmentHandler),
+							 ('/viewmessage', ViewMessageHandler),
 							 ('/makepayment', MakePaymentHandler),
 							 ], debug=True, config=config)
