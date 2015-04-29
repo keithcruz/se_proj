@@ -234,24 +234,6 @@ class WelcomeHandler(Handler):
 	@login_required
 	def get(self):
 		self.render("welcome.html", user=self.user_model)
-
-	@login_required
-	def post(self):
-		self.username = self.request.get('username')
-		#u = medicalchart_db.Medical_Data.all().filter("user_name = ", self.username).get()
-		u = Medical_Data.all()
-		u.filter("user_name =", self.username)
-		#if u is None:
-		#	self.redirect('/welcome')
-		#else:
-		params = dict(username = u.user_name,
-		 			  height = u.height, 
-		 			  weight = u.weight,
-		 			  bloodpressure = u.blood_pressure, 
-		 			  diagnosis = u.diagnosis, 
-		 			  notes = u.notes)
-		self.redirect('/createcharthandler')
-		self.render("createmedicalcharts.html", **params)
 		
 	# @login_required
 	# def get(self):
@@ -310,6 +292,25 @@ class ViewMedicalChartHandler(Handler):
 	@login_required
 	def get(self):
 		self.render('viewmedicalchart.html')
+
+	@login_required
+	def post(self):
+		self.username = self.request.get('username')
+		u = medicalchart_db.Medical_Data.all().filter("user_name = ", self.username).get()
+		#u = Medical_Data.all()
+		#u.filter("user_name =", self.username)
+		#if u is None:
+		#	self.redirect('/welcome')
+		#else:
+		params = dict(username = u.user_name,
+		 			  height = u.height, 
+		 			  weight = u.weight,
+		 			  bloodpressure = u.blood_pressure, 
+		 			  diagnosis = u.diagnosis, 
+		 			  notes = u.notes)
+
+		self.render("viewmedicalchart.html", **params)
+		self.redirect('/viewmedicalchart')
 
 class ScheduleAppointmentHandler(Handler):
 	@login_required
