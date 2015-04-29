@@ -50,6 +50,28 @@ hr {
 	margin: 20px auto;
 }
 
+h1 {
+	font-weight:bold;
+	font-style:italic;
+	color:#000000;
+	letter-spacing:6pt;
+	word-spacing:2pt;
+	font-size:22px;
+	text-align:center;
+	font-family:trebuchet MS, sans-serif;
+	line-height:1;
+}
+
+label {
+	font-weight:bold;
+	font-style:italic;
+	color:#000000;
+	word-spacing:2pt;
+	font-size:16px;
+	text-align:justify;
+	font-family:trebuchet MS, sans-serif;
+	line-height:1;
+}
 
 .login-area {
     font-size: 13px;
@@ -62,6 +84,14 @@ hr {
 .login-link {
     color: gray;
     text-decoration: none;
+    font-weight:bold;
+	font-style:italic;
+	color:#000000;
+	word-spacing:2pt;
+	font-size:16px;
+	text-align:justify;
+	font-family:trebuchet MS, sans-serif;
+	line-height:1;
 }
 
 .login-link:visited {
@@ -91,11 +121,30 @@ hr {
 	font-size:  14px;
 }
 .main-title{
-    display:block;
-    color:#222;
-    font-size:40px;
     font-weight:bold;
-    text-align: center;
-    margin-bottom: 30px;
-    text-decoration:none;
+	font-style:italic;
+	color:#000000;
+	letter-spacing:6pt;
+	word-spacing:2pt;
+	font-size:30px;
+	text-align:center;
+	font-family:trebuchet MS, sans-serif;
+	line-height:1;
+}
+
+.page-link {
+	color: gray;
+    text-decoration: none;
+	font-weight:bold;
+	font-style:italic;
+	color: gray;
+	word-spacing:2pt;
+	font-size:16px;
+	text-align:justify;
+	font-family:trebuchet MS, sans-serif;
+	line-height:1;
+}
+
+.page-link:hover {
+	text-decoration: underline;
 }

@@ -311,6 +311,16 @@ class ViewMedicalChartHandler(Handler):
 	def get(self):
 		self.render('viewmedicalchart.html')
 
+class ScheduleAppointmentHandler(Handler):
+	@login_required
+	def get(self):
+		self.render('scheduleappointment.html')
+
+class MakePaymentHandler(Handler):
+	@login_required
+	def get(self):
+		self.render('makepayment.html')
+
 app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/admin', AdminHandler),
 							 ('/welcome', WelcomeHandler),
@@ -322,4 +332,6 @@ app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/viewaccount', AccountHandler),
 							 ('/createmedicalchart', CreateChartHandler),
 							 ('/viewmedicalchart', ViewMedicalChartHandler),
+							 ('/scheduleappointment', ScheduleAppointmentHandler),
+							 ('/makepayment', MakePaymentHandler),
 							 ], debug=True, config=config)

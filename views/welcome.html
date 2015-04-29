@@ -8,33 +8,36 @@
 
 	<body>
 		<h1>Welcome, {{user.username}}!</h1>
+		<div class="login-area">
+			<a class="login-link" href="/logout">logout</a>
+		</div>
 		<hr>
 		<form>
-			<a href="/createmessage">Messages</a>
+			<a class="page-link" href="/createmessage">Messages</a>
 			<br><br>
-        	<a href="/viewschedule">View Schedule</a>
+        	<a class="page-link" href="/viewschedule">View Schedule</a>
         	
         	{% if (user.role == 1) %}
         		<br><br>
-        		<a href="/scheduleappt">Schedule Appointment</a>
+        		<a class="page-link" href="/scheduleappointment">Schedule Appointment</a>
         		<br><br>
-        		<a href="/viewaccount">My Account</a>
+        		<a class="page-link" href="/viewaccount">My Account</a>
         		<br><br>
-        		<a href="/makepayment">Make Payment</a>
+        		<a class="page-link" href="/makepayment">Make Payment</a>
         	{% elif (user.role == 3) %}
         		<br><br>
-        		<a href="/signup">Create New Account</a>
+        		<a class="page-link" href="/signup">Create New Account</a>
         		<br><br>
-        		<a href="/viewaccount">View Patient Information</a>
+        		<a class="page-link" href="/viewaccount">View Patient Information</a>
         		<br><br>
-        		<a href="/scheduleappt">Schedule Appointment</a>
+        		<a class="page-link" href="/scheduleappointment">Schedule Appointment</a>
         		<br><br>
-        		<a href="/makepayment">Make Payment</a>
+        		<a class="page-link" href="/makepayment">Make Payment</a>
         	{% elif (user.role == 2 or user.role == 4) %}
         		<br><br>
-        		<a href="/viewmedicalchart">View Medical Charts</a>
+        		<a class="page-link" href="/viewmedicalchart">View Medical Charts</a>
         		<br><br>
-        		<a href="/createmedicalchart">Create Medical Charts</a>
+        		<a class="page-link" href="/createmedicalchart">Create Medical Charts</a>
         	{% endif %}
 
 		</form>
