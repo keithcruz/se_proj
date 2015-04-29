@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+		<title>View Message</title>
+	</head>
+
+	<body>
+		<h1>View Message</h1>
+		<hr>
+		<form method="post">
+        	<br>
+		    <label>
+		        Username 
+		        <input type="text" name="username" value={{username}}><font color="red">{{error_username}}</font>
+		    </label>
+
+		    <br>
+		    <label>
+		        Subject
+		        <input type="text" name="subject"><font color="red">{{error_subject}}</font>
+		    </label>
+
+		    <br>
+		    <label>
+		        Body
+		        <label>
+					<div></div><textarea name="body">{{body}}</textarea>
+				</label> 
+		        <!-- <input type="text" name="body"><font color="red">{{error_body}}</font> -->
+		    </label>
+
+		    <br><br>
+		    <input type="Submit">
+		    <br><br><br>
+		    <a class="login-link" href="/welcome">Back</a>
+		</form>
+	</body>
+</html>
