@@ -9,40 +9,48 @@
 	<body>
 		<h1>Medical Chart</h1>
 		<form method="post">
-        	<br>
+        	<label>
+		        Patient Search 
+		        <input type="text" name="username">
+		    	</label>
+
+		    	<br><br>
+		    	<input type="submit">
+        	<br><br><hr><br>
+
 		    <label>
 		        Patient Username
-		        <input type="text" name="username">
+		        <input type="text" name="username" value={{username}}>
 		    </label>
 
         	<br>
 		    <label>
 		        Height
-		        <input type="text" name="height">
+		        <input type="text" name="height" value={{height}}>
 		    </label>
 
 		    <br>
 		    <label>
 		        Weight
-		        <input type="text" name="weight">
+		        <input type="text" name="weight" value={{weight}}>
 		    </label>
 
 		    <br>
 		    <label>
 		        Blood Pressure
-		        <input type="text" name="blood pressure">
+		        <input type="text" name="blood_pressure" value={{bloodpressure}}>
 		    </label>
 
 		    <br>
 		    <label>
 		        Diagnosis
-		        <input type="text" name="diagnosis">
+		        <input type="text" name="diagnosis" value={{diagnosis}}>
 		    </label>
 
 		    <br>
 		    <label>
 		        Notes
-		        <input type="text" name="notes">
+		        <input type="text" name="notes" value={{notes}}>
 		    </label>
 
 		    <br><br>

@@ -12,6 +12,7 @@ from webapp2_extras import sessions
 from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 from google.appengine.ext import ndb
+from models.medicalchart_db import Medical_Data
 
 ############################
 #Setup for auth and sessions
@@ -172,7 +173,7 @@ class Logout(Handler):
 	@login_required
 	def get(self):
 		self.auth.unset_session()
-		self.redirect("/login")
+		self.redirect("/")
 
 class Signup(Handler):
 	def get(self):
@@ -234,6 +235,24 @@ class WelcomeHandler(Handler):
 	def get(self):
 		self.render("welcome.html", user=self.user_model)
 
+	@login_required
+	def post(self):
+		self.username = self.request.get('username')
+		#u = medicalchart_db.Medical_Data.all().filter("user_name = ", self.username).get()
+		u = Medical_Data.all()
+		u.filter("user_name =", self.username)
+		#if u is None:
+		#	self.redirect('/welcome')
+		#else:
+		params = dict(username = u.user_name,
+		 			  height = u.height, 
+		 			  weight = u.weight,
+		 			  bloodpressure = u.blood_pressure, 
+		 			  diagnosis = u.diagnosis, 
+		 			  notes = u.notes)
+		self.redirect('/createcharthandler')
+		self.render("medicalchart.html", **params)
+		
 	# @login_required
 	# def get(self):
 	# 	self.response.out.write("Welcome, " +  str(self.user_model.username))
@@ -264,6 +283,34 @@ class AccountHandler(Handler):
 	def get(self):
 		self.render("viewaccount.html")
 
+class CreateChartHandler(Handler):
+	@login_required
+	def get(self):
+		self.render('medicalchart.html')
+
+	@login_required
+	def post(self):
+		self.username = self.request.get('username')
+		self.height = self.request.get('height')
+		self.weight = self.request.get('weight')
+		self.blood_pressure = self.request.get('blood_pressure')
+		self.diagnosis = self.request.get('diagnosis')
+		self.notes = self.request.get('notes')
+
+		m = Medical_Data(user_name = self.username, 
+						 height = self.height, 
+						 weight = self.weight, 
+						 blood_pressure = self.blood_pressure, 
+						 diagnosis = self.diagnosis,
+						 notes = self.notes)
+		m.put()
+		self.redirect('/welcome')
+
+class MedicalChartHandler(Handler):
+	@login_required
+	def get(self):
+		self.render('medicalchart.html')
+
 app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/admin', AdminHandler),
 							 ('/welcome', WelcomeHandler),
@@ -273,4 +320,6 @@ app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/viewschedule', ScheduleHandler),
 							 ('/createmessage', CreateMessageHandler),
 							 ('/viewaccount', AccountHandler),
+							 ('/createcharthandler', CreateChartHandler),
+							 ('/medicalchart', MedicalChartHandler),
 							 ], debug=True, config=config)
