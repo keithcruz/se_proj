@@ -251,7 +251,7 @@ class WelcomeHandler(Handler):
 		 			  diagnosis = u.diagnosis, 
 		 			  notes = u.notes)
 		self.redirect('/createcharthandler')
-		self.render("medicalchart.html", **params)
+		self.render("createmedicalcharts.html", **params)
 		
 	# @login_required
 	# def get(self):
@@ -286,7 +286,7 @@ class AccountHandler(Handler):
 class CreateChartHandler(Handler):
 	@login_required
 	def get(self):
-		self.render('medicalchart.html')
+		self.render('createmedicalcharts.html')
 
 	@login_required
 	def post(self):
@@ -306,10 +306,10 @@ class CreateChartHandler(Handler):
 		m.put()
 		self.redirect('/welcome')
 
-class MedicalChartHandler(Handler):
+class ViewMedicalChartHandler(Handler):
 	@login_required
 	def get(self):
-		self.render('medicalchart.html')
+		self.render('viewmedicalchart.html')
 
 app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/admin', AdminHandler),
@@ -320,6 +320,6 @@ app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/viewschedule', ScheduleHandler),
 							 ('/createmessage', CreateMessageHandler),
 							 ('/viewaccount', AccountHandler),
-							 ('/createcharthandler', CreateChartHandler),
-							 ('/medicalchart', MedicalChartHandler),
+							 ('/createmedicalchart', CreateChartHandler),
+							 ('/viewmedicalchart', ViewMedicalChartHandler),
 							 ], debug=True, config=config)
