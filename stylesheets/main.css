@@ -148,3 +148,14 @@ label {
 .page-link:hover {
 	text-decoration: underline;
 }
+
+.row-data {
+	font-weight:bold;
+	font-style:italic;
+	color: 0x000000;
+	word-spacing:2pt;
+	font-size:16px;
+	text-align:justify;
+	font-family:trebuchet MS, sans-serif;
+	line-height:1;
+}

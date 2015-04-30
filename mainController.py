@@ -271,7 +271,11 @@ class CreateMessageHandler(Handler):
 class ScheduleHandler(Handler):
 	@login_required
 	def get(self):
-		self.render('viewschedule.html')
+		user = self.user_model.username
+		a = Schedule_Data.all().filter("user_name =", user).fetch(100)
+
+		params = dict(appointments = a)
+		self.render('viewschedule.html', **params)
 
 class AccountHandler(Handler):
 	@login_required
