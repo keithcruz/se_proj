@@ -337,7 +337,7 @@ class ViewMedicalChartHandler(Handler):
 class ScheduleAppointmentHandler(Handler):
 	@login_required
 	def get(self):
-		self.render('scheduleappointment.html')
+		self.render('scheduleappointment.html', user=self.user_model)
 
 	@login_required
 	def post(self):
