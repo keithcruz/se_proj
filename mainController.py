@@ -13,6 +13,8 @@ from webapp2_extras.auth import InvalidAuthIdError
 from webapp2_extras.auth import InvalidPasswordError
 from google.appengine.ext import ndb
 from models.medicalchart_db import Medical_Data
+from models.messaging import Messaging_System
+from models.scheduleappointment_db import Schedule_Data
 
 ############################
 #Setup for auth and sessions
@@ -251,9 +253,20 @@ class CreateMessageHandler(Handler):
 		self.render('createmessage.html')
 
 	def post(self):
-		username = self.request.get('username')
-		subject = self.request.get('subject')
-		body = self.request.get('body')
+		send = self.user_model.username
+		rec = self.request.get('username')
+		sub = self.request.get('subject')
+		mes = self.request.get('body')
+
+		new_message = Messaging_System(sender = send,
+								recipient = rec,
+								subject = sub,
+								message = mes,
+								read = False)
+
+		new_message.put()
+
+		self.redirect('/welcome')
 
 class ScheduleHandler(Handler):
 	@login_required
@@ -322,10 +335,29 @@ class ScheduleAppointmentHandler(Handler):
 	def get(self):
 		self.render('scheduleappointment.html')
 
+	@login_required
+	def post(self):
+		self.username = self.request.get('username')
+		self.date = self.request.get('date')
+		self.time = self.request.get('time')
+		self.reason_for_visit = self.request.get('reason_for_visit')
+		
+		s = Schedule_Data(user_name = self.username, 
+						 date = self.date, 
+						 time = self.time, 
+						 reason_for_visit = self.reason_for_visit)
+		s.put()
+		self.redirect('/welcome')
+
 class MakePaymentHandler(Handler):
 	@login_required
 	def get(self):
 		self.render('makepayment.html')
+
+class ViewMessageHandler(Handler):
+	@login_required
+	def get(self):
+		self.render('viewmessage.html')		
 
 app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/admin', AdminHandler),
@@ -339,5 +371,6 @@ app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/createmedicalchart', CreateChartHandler),
 							 ('/viewmedicalchart', ViewMedicalChartHandler),
 							 ('/scheduleappointment', ScheduleAppointmentHandler),
+							 ('/viewmessage', ViewMessageHandler),
 							 ('/makepayment', MakePaymentHandler),
 							 ], debug=True, config=config)

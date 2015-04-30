@@ -11,7 +11,31 @@
 		<hr><br>
 		
 		<form method="post">
-        	
+        	<br>
+		    <label>
+		        Username
+		        <input type="text" name="username" value={{username}}><font color="red">{{error_username}}</font>
+		    </label>
+
+		    <br>
+		    <label>
+		        Date
+		        <input type="text" name="date"><font color="red">{{error_password}}</font>
+		    </label>
+
+		    <br>
+		    <label>
+		       	Time
+		        <input type="text" name="time"><font color="red">{{error_password}}</font>
+		    </label>
+
+		    <br>
+		    <label>
+		        Reason for Visit
+		        <input type="text" name="reasonforvisit"><font color="red">{{error_password}}</font>
+		    </label>
+		    <br><br>
+		    <input type="submit">
 		</form>
 		<br><br><br>
 		<a class="login-link" href="/welcome">Back</a>
