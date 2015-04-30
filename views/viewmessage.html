@@ -12,9 +12,21 @@
 		<form method="post">
         	<select name="messagelist" onclick="post()" size=len(messages)>
         	{% for m in messages %}
-        	    <option value={{m.timestamp}}>From:{{m.sender}} | Subject:{{m.subject}}</option>
+        	    <option value={{ i }}>From:{{ m.sender }} | Subject:{{ m.subject }}</option>
+        	    {% set i = i + 1 %}
         	{% endfor %}
         	</select>
+        	<br>
+        	<input type="submit">
 		</form>
+
+		{% if selectedmessage != None %}
+			
+
+		<h1>From:{{ messages[selectedIndex].sender }} | Subject:{{ messages[selectedIndex].subject }}</h1>
+		<p>
+			{{ messages[selectedIndex].message }}
+		</p>
+		{% endif %}
 	</body>
 </html>
