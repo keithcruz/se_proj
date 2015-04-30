@@ -360,20 +360,20 @@ class ViewMessageHandler(Handler):
 		username = self.user_model.username
 		m = Messaging_System.all().filter("recipient =", username).fetch(100)
 		params = dict(messages = m)
+		params['selectedmessage'] = None
+		params['i'] = 0
 		self.render('viewmessage.html', **params)	
 
 	def post(self):
-		self.time = self.request.get('messagelist')
+		theIndex = int(self.request.get('messagelist'))
 		username = self.user_model.username
 		m = Messaging_System.all().filter("recipient =", username).fetch(100)
+		#mess = Messaging_System.all().filter("subject =", messagesubject)
 		params = dict(messages = m)
-		mess = Messaging_System.all().filter("recipient =", username, "timestamp =", self.time)
-
-		if mess == None:
-			self.render('viewmessage.html', **params)
-		else:
-			params['selectedmessage'] = m
-			self.render('viewmessage.html', **params)
+		
+		params['i'] = 0
+		params['selectedIndex'] = theIndex
+		self.render('viewmessage.html', **params)
 
 
 
