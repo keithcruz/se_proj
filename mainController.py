@@ -357,7 +357,27 @@ class MakePaymentHandler(Handler):
 class ViewMessageHandler(Handler):
 	@login_required
 	def get(self):
-		self.render('viewmessage.html')		
+		self.username = self.user_model.username
+		m = Messaging_System.all().filter(recipient = self.username).fetch(100)
+		params = dict(messages = m)
+		self.render('viewmessage.html', **params)	
+
+	def post(self):
+		self.time = self.request.get('messagelist')
+		self.username = self.user_model.username
+		m = Messaging_System.all().filter(recipient = self.username).fetch(100)
+		params = dict(messages = m)
+		mess = Messaging_System.all().filter(recipient = self.username, timestamp = self.time)
+
+		if mess == None:
+			self.render('viewmessage.html', **params)
+		else:
+			params['selectedmessage'] = m
+			self.render('viewmessage.html', **params)
+
+
+
+
 
 app = webapp2.WSGIApplication([('/', MainPage),
 							 ('/admin', AdminHandler),
