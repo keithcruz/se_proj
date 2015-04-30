@@ -10,9 +10,9 @@
 		<h1>View Message</h1>
 		<hr>
 		<form method="post">
-        	<select name="messagelist" onclick="post()" size={{messages.size()}}>
+        	<select name="messagelist" onclick="post()" size=len(messages)>
         	{% for m in messages %}
-        	    <option value={{m.timestamp}}>{{m.sender}},{{m.subject}}</option>
+        	    <option value={{m.timestamp}}>From:{{m.sender}} | Subject:{{m.subject}}</option>
         	{% endfor %}
         	</select>
 		</form>

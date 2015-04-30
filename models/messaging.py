@@ -1,5 +1,5 @@
-#import webapp2
-from google.appengine.ext import ndb
+import webapp2
+from google.appengine.ext import db
 #import webapp2_extras.appengine.auth.models as auth_models
 #from google.appengine.ext import db
 
@@ -11,13 +11,13 @@ from google.appengine.ext import ndb
 
 # The Messaging_System class uses a database to send, store, and 
 # receive messages between parties.
-class Messaging_System(ndb.Model):
-	sender = ndb.StringProperty(required = True)
-	recipient = ndb.StringProperty(required = True)
-	subject = ndb.StringProperty(required = True)
-	message = ndb.StringProperty(required = False)
-	read = ndb.BooleanProperty(required = False)
-	timestamp = ndb.DateTimeProperty(auto_now = True)
+class Messaging_System(db.Model):
+	sender = db.StringProperty(required = True)
+	recipient = db.StringProperty(required = True)
+	subject = db.StringProperty(required = True)
+	message = db.StringProperty(required = False)
+	read = db.BooleanProperty(required = False)
+	timestamp = db.DateTimeProperty(auto_now = True)
 
 	# Creates a new message of the given values and then stores
 	# it in the database.
