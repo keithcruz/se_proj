@@ -271,8 +271,11 @@ class CreateMessageHandler(Handler):
 class ScheduleHandler(Handler):
 	@login_required
 	def get(self):
-		user = self.user_model.username
-		a = Schedule_Data.all().filter("user_name =", user).fetch(100)
+		if self.user_model.role == 1:
+			user = self.user_model.username
+			a = Schedule_Data.all().filter("user_name =", user).fetch(100)
+		else:
+			a = Schedule_Data.all().fetch(100)
 
 		params = dict(appointments = a)
 		self.render('viewschedule.html', **params)
@@ -341,10 +344,13 @@ class ScheduleAppointmentHandler(Handler):
 
 	@login_required
 	def post(self):
-		self.username = self.request.get('username')
-		self.date = self.request.get('date')
-		self.time = self.request.get('time')
-		self.reason_for_visit = self.request.get('reason_for_visit')
+		if self.user_model.role == 3:
+		   	self.username = self.request.get('username')
+		else:
+		   	self.username = self.user_model.username
+			self.date = self.request.get('date')
+			self.time = self.request.get('time')
+			self.reason_for_visit = self.request.get('reason_for_visit')
 		
 		s = Schedule_Data(user_name = self.username, 
 						 date = self.date, 
